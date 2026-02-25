@@ -5,21 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.2] - 2025-02-25
-
-### Added
-- Multi-architecture support for macOS
-  - Added Intel (x64) Mac support alongside Apple Silicon (arm64)
-  - Both DMG files will be created during build process
-
-## [0.2.1] - 2025-02-25
-
-### Added
-- Show changelog/release notes in auto-updater dialog
-- Display "What's new" section when update is available
-- Auto-truncate long changelogs in updater (500 char limit)
-
-## [0.2.0] - 2025-02-25
+## [0.2.3] - 2025-02-26
 
 ### Added
 - **Enhanced Request/Response Body Viewer**
@@ -32,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Support for rendering HTML (preview/source toggle), images, and JavaScript
   - Auto-detection of content type when MIME type is missing
   - Formatted view for URL-encoded form data with pretty-printed JSON values
+- Show changelog/release notes in auto-updater dialog
+- Multi-architecture support for macOS
+  - Added Intel (x64) Mac support alongside Apple Silicon (arm64)
+  - Both DMG files will be created during build process
+- Dual-arch Homebrew cask support
 
 ### Changed
 - Improved database migration system with better error handling and logging
@@ -40,12 +31,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed database migrations not running properly for new columns
 - Fixed SQLite error when `response_body_size` column didn't exist
-
-## [0.1.1] - Previous Release
-
-### Initial Release
-- MITM proxy with Kimi AI agent integration
-- HTTP request/response capture and storage
-- Session management
-- SSL interception support
-- Real-time request monitoring
