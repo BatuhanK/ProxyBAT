@@ -52,17 +52,20 @@ jobs:
         name: ProxyBat-macOS
         path: dist/*.dmg
     
-    - name: Get version and SHA256
+    - name: Get version and SHA256s
       id: get_info
       run: |
         # Get version from package.json (not from tag)
         VERSION=$(node -p "require('./package.json').version")
         echo "version=$VERSION" >> $GITHUB_OUTPUT
-        # Get SHA256 for arm64 build (default for Homebrew)
-        SHA256=$(shasum -a 256 dist/*-arm64.dmg | awk '{print $1}')
-        echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+        # Get SHA256 for both architectures
+        SHA256_ARM=$(shasum -a 256 dist/*-arm64.dmg | awk '{print $1}')
+        SHA256_INTEL=$(shasum -a 256 dist/ProxyBat-*.dmg | grep -v arm64 | awk '{print $1}')
+        echo "sha256_arm=$SHA256_ARM" >> $GITHUB_OUTPUT
+        echo "sha256_intel=$SHA256_INTEL" >> $GITHUB_OUTPUT
         echo "App version: $VERSION"
-        echo "DMG SHA256: $SHA256"
+        echo "ARM64 SHA256: $SHA256_ARM"
+        echo "Intel SHA256: $SHA256_INTEL"
     
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/v')
@@ -85,11 +88,14 @@ jobs:
     - name: Update Homebrew Cask on main
       run: |
         VERSION=${{ steps.get_info.outputs.version }}
-        SHA256=${{ steps.get_info.outputs.sha256 }}
+        SHA256_ARM=${{ steps.get_info.outputs.sha256_arm }}
+        SHA256_INTEL=${{ steps.get_info.outputs.sha256_intel }}
         
-        # Update version and SHA256 in cask file
+        # Update version in cask file
         sed -i.bak "s/version \"[^\"]*\"/version \"$VERSION\"/" Casks/proxybat.rb
-        sed -i.bak "s/sha256 \"[^\"]*\"/sha256 \"$SHA256\"/" Casks/proxybat.rb
+        # Update both SHA256s in cask file
+        sed -i.bak "s/sha256 arm:   \"[^\"]*\"/sha256 arm:   \"$SHA256_ARM\"/" Casks/proxybat.rb
+        sed -i.bak "s/intel: \"[^\"]*\"/intel: \"$SHA256_INTEL\"/" Casks/proxybat.rb
         rm Casks/proxybat.rb.bak
         
         # Show the changes
