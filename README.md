@@ -85,6 +85,24 @@ npm run dev
 npm run package
 ```
 
+### From Homebrew (macOS)
+
+```bash
+# Install via Homebrew
+brew tap batuhank/proxybat https://github.com/batuhank/proxybat
+brew install --cask proxybat
+```
+
+Or install directly:
+
+```bash
+brew install --cask batuhank/proxybat/proxybat
+```
+
+### Pre-built Binary
+
+Download the latest DMG from [GitHub Releases](https://github.com/batuhank/proxybat/releases).
+
 ## Usage
 
 ### Getting Started

@@ -45,6 +45,36 @@ jobs:
         name: ProxyBat-macOS
         path: dist/*.dmg
     
+    - name: Get version and SHA256
+      id: get_info
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        SHA256=$(shasum -a 256 dist/*.dmg | awk '{print $1}')
+        echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+        echo "DMG SHA256: $SHA256"
+    
+    - name: Update Homebrew Cask
+      run: |
+        VERSION=${{ steps.get_info.outputs.version }}
+        SHA256=${{ steps.get_info.outputs.sha256 }}
+        
+        # Update version and SHA256 in cask file
+        sed -i.bak "s/version \"[^\"]*\"/version \"$VERSION\"/" Casks/proxybat.rb
+        sed -i.bak "s/sha256 \"[^\"]*\"/sha256 \"$SHA256\"/" Casks/proxybat.rb
+        rm Casks/proxybat.rb.bak
+        
+        # Show the changes
+        cat Casks/proxybat.rb
+    
+    - name: Commit updated cask
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Casks/proxybat.rb
+        git commit -m "Update Homebrew cask to v${{ steps.get_info.outputs.version }}" || echo "No changes to commit"
+        git push
+    
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
