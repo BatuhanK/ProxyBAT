@@ -1,6 +1,6 @@
 {
   "name": "ProxyBat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A MITM proxy with Kimi AI agent integration",
   "main": "./out/main/index.js",
   "author": "BatuhanK",
@@ -93,7 +93,10 @@
     "mac": {
       "target": "dmg",
       "category": "public.app-category.developer-tools",
-      "icon": "resources/icons/icon.icns"
+      "icon": "resources/icons/icon.icns",
+      "notarize": {
+        "teamId": "8DU6UDZ87R"
+      }
     },
     "win": {
       "target": "nsis",
