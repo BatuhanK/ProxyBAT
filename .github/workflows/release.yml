@@ -52,10 +52,12 @@ jobs:
     - name: Get version and SHA256
       id: get_info
       run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
+        # Get version from package.json (not from tag)
+        VERSION=$(node -p "require('./package.json').version")
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         SHA256=$(shasum -a 256 dist/*.dmg | awk '{print $1}')
         echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+        echo "App version: $VERSION"
         echo "DMG SHA256: $SHA256"
     
     - name: Create Release
