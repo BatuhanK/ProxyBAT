@@ -14,6 +14,7 @@ import { registerShellHandlers } from "./ipc/shell";
 import { registerSslRuleHandlers } from "./ipc/sslRule";
 import { registerSystemProxyHandlers } from "./ipc/systemProxy";
 import { registerTerminalHandlers } from "./ipc/terminal";
+import { initAutoUpdater } from "./updater";
 import { LlmApiServer } from "./llm-api/LlmApiServer";
 import { BodyStore } from "./storage/BodyStore";
 import { Database } from "./storage/Database";
@@ -120,6 +121,9 @@ app.whenReady().then(async () => {
   await LlmApiServer.getInstance().start();
 
   createWindow();
+
+  // Initialize auto-updater
+  initAutoUpdater();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

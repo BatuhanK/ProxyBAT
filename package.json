@@ -41,6 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "classic-level": "^2.0.0",
     "clsx": "^2.1.1",
+    "electron-updater": "^6.8.3",
     "lucide-react": "^0.474.0",
     "micromatch": "^4.0.8",
     "node-pty": "^1.1.0",
@@ -101,6 +102,11 @@
     "linux": {
       "target": "AppImage",
       "icon": "resources/icons/icon.png"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "batuhank",
+      "repo": "proxybat"
     }
   }
 }
