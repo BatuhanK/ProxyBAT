@@ -34,6 +34,7 @@
 ## Features
 
 ### Core Proxy Functionality
+
 - **HTTP/HTTPS Interception** - Capture and analyze all web traffic with automatic SSL/TLS certificate management
 - **Real-time Traffic Monitoring** - View requests and responses in real-time with powerful filtering capabilities
 - **Session Management** - Organize traffic into sessions for better workflow management
@@ -41,6 +42,7 @@
 - **Script Injection** - Create and manage Python scripts to modify requests/responses on-the-fly
 
 ### AI-Powered Agents
+
 ProxyBat comes with specialized AI agents that can:
 
 - **Security Researcher Agent** - Analyze traffic for security vulnerabilities, identify potential attack vectors, and provide detailed security assessments
@@ -50,6 +52,7 @@ ProxyBat comes with specialized AI agents that can:
 - **General Agent** - Multi-purpose AI assistant for general proxy tasks and analysis
 
 ### Advanced Features
+
 - **Built-in Terminal** - Integrated terminal for running commands and scripts
 - **File System Tools** - AI agents can read, write, and analyze files in your workspace
 - **LLM API Server** - Built-in OpenAI-compatible API server for integrating with other tools
@@ -60,7 +63,8 @@ ProxyBat comes with specialized AI agents that can:
 ## Installation
 
 ### Prerequisites
-- **Node.js** 18+ 
+
+- **Node.js** 18+
 - **Python** 3.11+ (for proxy functionality)
 - **npm** or **yarn**
 
@@ -68,7 +72,7 @@ ProxyBat comes with specialized AI agents that can:
 
 ```bash
 # Clone the repository
-git clone https://github.com/batuhankatirci/proxybat.git
+git clone https://github.com/batuhank/proxybat.git
 cd proxybat
 
 # Install dependencies
@@ -80,13 +84,6 @@ npm run dev
 # Build for production
 npm run package
 ```
-
-### Pre-built Binaries
-
-Download the latest release for your platform:
-- **macOS**: `.dmg` installer
-- **Windows**: `.exe` installer  
-- **Linux**: `.AppImage`
 
 ## Usage
 
@@ -204,9 +201,9 @@ npm run dev
 
 ## Support
 
-- 📖 [Documentation](https://github.com/batuhankatirci/proxybat/wiki)
-- 🐛 [Issue Tracker](https://github.com/batuhankatirci/proxybat/issues)
-- 💬 [Discussions](https://github.com/batuhankatirci/proxybat/discussions)
+- 📖 [Documentation](https://github.com/batuhank/proxybat/wiki)
+- 🐛 [Issue Tracker](https://github.com/batuhank/proxybat/issues)
+- 💬 [Discussions](https://github.com/batuhank/proxybat/discussions)
 
 ## Acknowledgments
 
@@ -226,7 +223,7 @@ This tool is intended for authorized security testing and debugging purposes onl
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/batuhankatirci">Batuhan Katirci</a>
+  Made with ❤️ by <a href="https://x.com/batuhan_katirci">Batuhan Katirci</a>
 </p>
 
 <p align="center">

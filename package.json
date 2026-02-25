@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A MITM proxy with Kimi AI agent integration",
   "main": "./out/main/index.js",
-  "author": "batuhankatirci",
+  "author": "BatuhanK",
   "license": "MIT",
   "scripts": {
     "dev": "electron-vite dev",
@@ -75,7 +75,7 @@
     "vite": "^7.3.1"
   },
   "build": {
-    "appId": "com.batuhankatirci.ProxyBat",
+    "appId": "com.batuhank.ProxyBat",
     "productName": "ProxyBat",
     "directories": {
       "output": "dist"

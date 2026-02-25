@@ -71,7 +71,7 @@ function createWindow(): BrowserWindow {
 }
 
 app.whenReady().then(async () => {
-  electronApp.setAppUserModelId("com.batuhankatirci.ProxyBat");
+  electronApp.setAppUserModelId("com.batuhank.ProxyBat");
   app.setName("ProxyBat");
 
   // Force dock/taskbar icon (especially important in dev mode)
@@ -87,7 +87,6 @@ app.whenReady().then(async () => {
     } else {
       if (process.platform === "darwin") {
         app.dock.setIcon(dockIcon);
-        console.log("Başarılı: Dock ikonu ayarlandı.");
       }
     }
   } catch (error) {
