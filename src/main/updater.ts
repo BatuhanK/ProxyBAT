@@ -23,15 +23,27 @@ export function initAutoUpdater(): void {
 
   autoUpdater.on("update-available", (info) => {
     console.log("Update available:", info);
-    
+
     const mainWindow = getMainWindow();
     if (mainWindow) {
+      // Build detail message with changelog if available
+      let detailMessage = "Would you like to download and install it now?";
+
+      if (info.releaseNotes) {
+        // Truncate release notes if too long
+        let notes = info.releaseNotes;
+        if (typeof notes === "string" && notes.length > 500) {
+          notes = notes.substring(0, 500) + "...";
+        }
+        detailMessage = `What's new:\n\n${notes}\n\nWould you like to download and install it now?`;
+      }
+
       dialog
         .showMessageBox(mainWindow, {
           type: "info",
           title: "Update Available",
           message: `A new version (${info.version}) is available!`,
-          detail: "Would you like to download and install it now?",
+          detail: detailMessage,
           buttons: ["Download & Install", "Later"],
           defaultId: 0,
           cancelId: 1,
