@@ -85,6 +85,8 @@ export interface HttpRequest {
   responseHeaders: Record<string, string>;
   requestBodyKey: string | null;
   responseBodyKey: string | null;
+  requestBodySize: number | null;
+  responseBodySize: number | null;
   contentType: string | null;
   durationMs: number | null;
   sslIntercepted: boolean;

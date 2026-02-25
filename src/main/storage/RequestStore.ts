@@ -17,6 +17,8 @@ interface RequestRow {
   response_headers: string
   request_body_key: string | null
   response_body_key: string | null
+  request_body_size: number | null
+  response_body_size: number | null
   content_type: string | null
   duration_ms: number | null
   ssl_intercepted: number
@@ -36,6 +38,8 @@ function rowToRequest(row: RequestRow): HttpRequest {
     responseHeaders: JSON.parse(row.response_headers || '{}'),
     requestBodyKey: row.request_body_key,
     responseBodyKey: row.response_body_key,
+    requestBodySize: row.request_body_size ?? null,
+    responseBodySize: row.response_body_size ?? null,
     contentType: row.content_type,
     durationMs: row.duration_ms,
     sslIntercepted: row.ssl_intercepted === 1
@@ -51,6 +55,7 @@ export interface CreateRequestParams {
   path: string
   requestHeaders: Record<string, string>
   requestBodyKey?: string | null
+  requestBodySize?: number | null
   sslIntercepted?: boolean
   timestamp?: number
 }
@@ -59,6 +64,7 @@ export interface UpdateRequestParams {
   statusCode?: number
   responseHeaders?: Record<string, string>
   responseBodyKey?: string | null
+  responseBodySize?: number | null
   contentType?: string | null
   durationMs?: number | null
 }
@@ -107,8 +113,8 @@ export class RequestStore {
       .prepare(
         `INSERT INTO requests
           (id, session_id, timestamp, method, url, host, path,
-           request_headers, request_body_key, ssl_intercepted)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+           request_headers, request_body_key, request_body_size, ssl_intercepted)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .run(
         id,
@@ -120,6 +126,7 @@ export class RequestStore {
         params.path,
         JSON.stringify(params.requestHeaders || {}),
         params.requestBodyKey ?? null,
+        params.requestBodySize ?? null,
         params.sslIntercepted ? 1 : 0
       )
 
@@ -142,6 +149,10 @@ export class RequestStore {
     if (params.responseBodyKey !== undefined) {
       updates.push('response_body_key = ?')
       values.push(params.responseBodyKey)
+    }
+    if (params.responseBodySize !== undefined) {
+      updates.push('response_body_size = ?')
+      values.push(params.responseBodySize)
     }
     if (params.contentType !== undefined) {
       updates.push('content_type = ?')

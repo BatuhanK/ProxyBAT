@@ -8,18 +8,15 @@ export function ThinkingIndicator() {
       </div>
       <div className="flex flex-col gap-2 min-w-[140px]">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-primary animate-pulse">Bat is thinking</span>
-          <span className="flex gap-1">
-            <span className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:0ms]" />
-            <span className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:150ms]" />
-            <span className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:300ms]" />
+          <span className="text-xs font-medium text-primary animate-pulse">
+            Bat is thinking
           </span>
         </div>
         <div className="bg-primary/5 border border-primary/20 rounded-lg px-4 py-3 flex items-center gap-2">
           <div className="w-full h-1.5 bg-primary/10 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-transparent via-primary to-transparent rounded-full animate-shimmer w-[60%]"
-              style={{ backgroundSize: '200% 100%' }}
+              style={{ backgroundSize: "200% 100%" }}
             />
           </div>
         </div>

@@ -362,7 +362,7 @@ export class ProxyManager {
       try {
         const msg = JSON.parse(trimmed) as AddonLine
         this.handleAddonMessage(msg)
-      } catch {
+      } catch (err) {
         // Not JSON — just log
         console.log('[mitmdump]', trimmed)
       }
@@ -391,58 +391,80 @@ export class ProxyManager {
           break
         }
 
+        if (!this.activeSessionId) {
+          console.error('[ProxyManager] No active session - dropping request:', msg.url)
+          break
+        }
+
         const requestId = uuidv4()
         this.flowToRequest.set(msg.id, requestId)
 
         let requestBodyKey: string | null = null
+        let requestBodySize: number | null = null
         if (msg.request_body) {
           requestBodyKey = `req:${requestId}`
           const buf = Buffer.from(msg.request_body, 'base64')
+          requestBodySize = buf.length
           BodyStore.getInstance().put(requestBodyKey, buf).catch((e) =>
             console.error('[BodyStore] put error:', e)
           )
         }
 
-        RequestStore.getInstance().create({
-          id: requestId,
-          sessionId: this.activeSessionId!,
-          method: msg.method,
-          url: msg.url,
-          host: msg.host,
-          path: msg.path,
-          requestHeaders: msg.request_headers,
-          requestBodyKey,
-          sslIntercepted: msg.ssl,
-          timestamp: Math.floor(msg.timestamp * 1000),
-        })
+        try {
+          RequestStore.getInstance().create({
+            id: requestId,
+            sessionId: this.activeSessionId,
+            method: msg.method,
+            url: msg.url,
+            host: msg.host,
+            path: msg.path,
+            requestHeaders: msg.request_headers,
+            requestBodyKey,
+            requestBodySize,
+            sslIntercepted: msg.ssl,
+            timestamp: Math.floor(msg.timestamp * 1000),
+          })
+        } catch (err) {
+          console.error('[ProxyManager] Failed to create request:', err)
+        }
         break
       }
 
       case 'response': {
         const requestId = this.flowToRequest.get(msg.id)
-        if (!requestId) return
+        if (!requestId) {
+          console.warn('[ProxyManager] Response received but no matching request:', msg.id)
+          return
+        }
 
         let responseBodyKey: string | null = null
+        let responseBodySize: number | null = null
         if (msg.response_body) {
           responseBodyKey = `res:${requestId}`
           const buf = Buffer.from(msg.response_body, 'base64')
+          responseBodySize = buf.length
           BodyStore.getInstance().put(responseBodyKey, buf).catch((e) =>
             console.error('[BodyStore] put error:', e)
           )
         }
 
-        RequestStore.getInstance().update(requestId, {
-          statusCode: msg.status,
-          responseHeaders: msg.response_headers,
-          responseBodyKey,
-          contentType: msg.content_type,
-          durationMs: msg.duration_ms,
-        })
+        try {
+          RequestStore.getInstance().update(requestId, {
+            statusCode: msg.status,
+            responseHeaders: msg.response_headers,
+            responseBodyKey,
+            responseBodySize,
+            contentType: msg.content_type,
+            durationMs: msg.duration_ms,
+          })
 
-        // Push completed request to renderer
-        const request = RequestStore.getInstance().getById(requestId)
-        if (request) {
-          this.pushToRenderer(PUSH.REQUEST_CAPTURED, request)
+          // Push completed request to renderer
+          const request = RequestStore.getInstance().getById(requestId)
+          if (request) {
+            this.pushToRenderer(PUSH.REQUEST_CAPTURED, request)
+          }
+        } catch (err) {
+          console.error('[ProxyManager] Failed to update request:', err)
         }
 
         this.flowToRequest.delete(msg.id)

@@ -26,6 +26,7 @@ export class Database {
     this.db.pragma("foreign_keys = ON");
 
     this.runMigrations();
+    this.verifyColumns();
   }
 
   getDb(): BetterSqlite3.Database {
@@ -51,10 +52,40 @@ export class Database {
     const migrations = this.getMigrations();
     for (const [version, sql] of migrations) {
       if (!appliedVersions.has(version)) {
-        db.exec(sql);
-        db.prepare(
-          "INSERT INTO schema_migrations (version, applied_at) VALUES (?, ?)",
-        ).run(version, Date.now());
+        console.log(`[Database] Running migration ${version}...`);
+        try {
+          db.exec(sql);
+          db.prepare(
+            "INSERT INTO schema_migrations (version, applied_at) VALUES (?, ?)",
+          ).run(version, Date.now());
+          console.log(`[Database] Migration ${version} completed successfully`);
+        } catch (err) {
+          console.error(`[Database] Migration ${version} failed:`, err);
+          throw err;
+        }
+      }
+    }
+  }
+
+  private verifyColumns(): void {
+    const db = this.getDb();
+    const columns = db.prepare("PRAGMA table_info(requests)").all() as Array<{ name: string }>;
+    const columnNames = new Set(columns.map((c) => c.name));
+
+    const expectedColumns = [
+      { name: 'request_body_size', type: 'INTEGER' },
+      { name: 'response_body_size', type: 'INTEGER' },
+    ];
+
+    for (const col of expectedColumns) {
+      if (!columnNames.has(col.name)) {
+        console.log(`[Database] Adding missing column: ${col.name}`);
+        try {
+          db.exec(`ALTER TABLE requests ADD COLUMN ${col.name} ${col.type}`);
+          console.log(`[Database] Column ${col.name} added successfully`);
+        } catch (err) {
+          console.error(`[Database] Failed to add column ${col.name}:`, err);
+        }
       }
     }
   }
@@ -174,6 +205,14 @@ export class Database {
           created_at INTEGER NOT NULL
         );
         `,
+      ],
+      [
+        7,
+        `ALTER TABLE requests ADD COLUMN request_body_size INTEGER;`,
+      ],
+      [
+        8,
+        `ALTER TABLE requests ADD COLUMN response_body_size INTEGER;`,
       ],
     ];
   }
