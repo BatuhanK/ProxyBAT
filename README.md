@@ -93,11 +93,6 @@ brew tap batuhank/proxybat https://github.com/batuhank/proxybat
 brew install --cask proxybat
 ```
 
-Or install directly:
-
-```bash
-brew install --cask batuhank/proxybat/proxybat
-```
 
 ### Pre-built Binary
 
