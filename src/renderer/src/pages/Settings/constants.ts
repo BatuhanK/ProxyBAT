@@ -53,6 +53,11 @@ export const COPILOT_MODELS = [
 
 export const ZAI_MODELS = [{ label: "glm-5 — GLM Coding Plan", value: "glm-5" }];
 
+export const DEEPSEEK_MODELS = [
+  { label: "deepseek-v4-flash — Fast", value: "deepseek-v4-flash" },
+  { label: "deepseek-v4-pro — Pro reasoning", value: "deepseek-v4-pro" },
+];
+
 export const CODEX_MODELS = [
   { label: "gpt-5.2-codex — Latest agentic", value: "gpt-5.2-codex" },
   { label: "gpt-5.2 — Latest general purpose", value: "gpt-5.2" },
@@ -74,6 +79,7 @@ export const PROVIDER_MODELS: Record<AiProvider, { label: string; value: string 
     copilot: COPILOT_MODELS,
     zai: ZAI_MODELS,
     codex: CODEX_MODELS,
+    deepseek: DEEPSEEK_MODELS,
   };
 
 export const PROVIDER_LABELS: Record<AiProvider, string> = {
@@ -81,4 +87,5 @@ export const PROVIDER_LABELS: Record<AiProvider, string> = {
   copilot: "GitHub Copilot",
   zai: "ZAI / GLM-5",
   codex: "Codex CLI",
+  deepseek: "DeepSeek",
 };

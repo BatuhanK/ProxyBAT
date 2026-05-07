@@ -64,6 +64,8 @@ export function registerSettingsHandlers(): void {
       // ZAI — prefer zai-coding-plan key (has coding endpoint), fall back to zhipuai
       if (data['zai-coding-plan']?.key) found.zaiApiKey = data['zai-coding-plan'].key
       else if (data['zhipuai']?.key) found.zaiApiKey = data['zhipuai'].key
+      // DeepSeek
+      if (data['deepseek']?.key) found.deepseekApiKey = data['deepseek'].key
 
       return { found, fileFound: true }
     } catch (err) {

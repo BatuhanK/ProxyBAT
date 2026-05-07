@@ -130,6 +130,8 @@ export function SettingsPage() {
             setShowCopilotKey={settings.setShowCopilotKey}
             showZaiKey={settings.showZaiKey}
             setShowZaiKey={settings.setShowZaiKey}
+            showDeepseekKey={settings.showDeepseekKey}
+            setShowDeepseekKey={settings.setShowDeepseekKey}
             opencodeInPath={settings.opencodeInPath}
             crawlLoading={settings.crawlLoading}
             crawlFound={settings.crawlFound}
