@@ -56,7 +56,7 @@ ProxyBat comes with specialized AI agents that can:
 - **Built-in Terminal** - Integrated terminal for running commands and scripts
 - **File System Tools** - AI agents can read, write, and analyze files in your workspace
 - **LLM API Server** - Built-in OpenAI-compatible API server for integrating with other tools
-- **Multiple AI Providers** - Support for OpenAI, Anthropic, GitHub Copilot, and more
+- **Multiple AI Providers** - Support for Kimi, GitHub Copilot, ZAI/GLM-5, Codex CLI, DeepSeek, and more
 - **Smart Filtering** - Filter traffic by domain, method, status code, and custom patterns
 - **SSL/TLS Management** - Automatic certificate generation and management
 
@@ -158,9 +158,11 @@ ProxyBat is built with a modern tech stack:
 
 Configure your AI providers in the Settings tab:
 
-- **OpenAI** - Add your API key
-- **Anthropic** - Configure Claude API access
-- **GitHub Copilot** - Use Copilot's AI capabilities
+- **Kimi (Moonshot)** - `k2p5` via Anthropic-compatible coding endpoint
+- **GitHub Copilot** - Claude / GPT / Gemini / Grok models routed through Copilot
+- **ZAI / GLM-5** - GLM Coding Plan
+- **Codex CLI** - GPT-5 / GPT-5.1 / GPT-5.2 codex variants via local Codex login
+- **DeepSeek** - `deepseek-v4-flash` and `deepseek-v4-pro` (reasoning) via official DeepSeek API
 - **Custom Providers** - Add any OpenAI-compatible API
 
 ### Proxy Settings
