@@ -16,6 +16,8 @@ interface AiProvidersTabProps {
   setShowCopilotKey: (fn: (v: boolean) => boolean) => void;
   showZaiKey: boolean;
   setShowZaiKey: (fn: (v: boolean) => boolean) => void;
+  showDeepseekKey: boolean;
+  setShowDeepseekKey: (fn: (v: boolean) => boolean) => void;
   opencodeInPath: boolean;
   crawlLoading: boolean;
   crawlFound: CrawledAiKeys | null;
@@ -39,6 +41,8 @@ export function AiProvidersTab({
   setShowCopilotKey,
   showZaiKey,
   setShowZaiKey,
+  showDeepseekKey,
+  setShowDeepseekKey,
   opencodeInPath,
   crawlLoading,
   crawlFound,
@@ -206,6 +210,44 @@ export function AiProvidersTab({
             </div>
           </div>
 
+          {/* DeepSeek */}
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-muted-foreground">
+              DeepSeek API Key
+            </label>
+            <div className="relative">
+              <Input
+                type={showDeepseekKey ? "text" : "password"}
+                value={aiSettings.deepseekApiKey}
+                onChange={(e) =>
+                  setAiSettings((s) => ({
+                    ...s,
+                    deepseekApiKey: e.target.value,
+                  }))
+                }
+                className="h-8 text-xs font-mono pr-8"
+                placeholder="sk-…"
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowDeepseekKey((v) => !v)}
+              >
+                {showDeepseekKey ? (
+                  <EyeOff className="w-3.5 h-3.5" />
+                ) : (
+                  <Eye className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Get a key at{" "}
+              <code className="font-mono">platform.deepseek.com</code>. Uses
+              OpenAI-compatible endpoint{" "}
+              <code className="font-mono">api.deepseek.com/v1</code>.
+            </p>
+          </div>
+
           {/* Codex CLI path */}
           <div className="flex flex-col gap-1">
             <label className="text-xs text-muted-foreground">
@@ -337,6 +379,29 @@ export function AiProvidersTab({
                   </span>
                   <code className="font-mono">
                     {crawlFound.zaiApiKey.slice(0, 20)}…
+                  </code>
+                </label>
+              )}
+              {crawlFound.deepseekApiKey && (
+                <label className="flex items-center gap-2 text-xs cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={crawlSelected.has("deepseekApiKey")}
+                    onChange={(e) =>
+                      setCrawlSelected((s) => {
+                        const next = new Set(s);
+                        if (e.target.checked) next.add("deepseekApiKey");
+                        else next.delete("deepseekApiKey");
+                        return next;
+                      })
+                    }
+                    className="rounded"
+                  />
+                  <span className="text-muted-foreground">
+                    DeepSeek API key:
+                  </span>
+                  <code className="font-mono">
+                    {crawlFound.deepseekApiKey.slice(0, 20)}…
                   </code>
                 </label>
               )}

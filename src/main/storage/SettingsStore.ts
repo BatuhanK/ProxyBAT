@@ -107,6 +107,7 @@ export class SettingsStore {
       kimiApiKey: this.get("ai_kimi_key") ?? "",
       copilotApiKey: this.get("ai_copilot_key") ?? "",
       zaiApiKey: this.get("ai_zai_key") ?? "",
+      deepseekApiKey: this.get("ai_deepseek_key") ?? "",
       codexPath,
     };
   }
@@ -122,6 +123,8 @@ export class SettingsStore {
       this.set("ai_copilot_key", settings.copilotApiKey);
     if (settings.zaiApiKey !== undefined)
       this.set("ai_zai_key", settings.zaiApiKey);
+    if (settings.deepseekApiKey !== undefined)
+      this.set("ai_deepseek_key", settings.deepseekApiKey);
     if (settings.codexPath !== undefined)
       this.set("ai_codex_path", settings.codexPath);
   }

@@ -1,4 +1,5 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
+import { createDeepSeek } from "@ai-sdk/deepseek";
 import { createGitHubCopilotOpenAICompatible } from "@opeoginni/github-copilot-openai-compatible";
 import { PUSH } from "@shared/ipc-contracts";
 import type { ModelMessage } from "ai";
@@ -65,6 +66,13 @@ function getActiveModel(): any {
       return codexCli(s.activeModel || "gpt-5.2-codex", { codexPath });
     }
 
+    case "deepseek": {
+      const deepseek = createDeepSeek({
+        apiKey: s.deepseekApiKey,
+      });
+      return deepseek(s.activeModel || "deepseek-v4-flash");
+    }
+
     default: {
       // Fallback: Kimi with whatever key we have
       const kimi = createAnthropic({
@@ -127,6 +135,13 @@ function getTitleModel(): any {
     case "codex": {
       const codexPath = s.codexPath || undefined;
       return codexCli("gpt-5.2-codex", { codexPath });
+    }
+
+    case "deepseek": {
+      const deepseek = createDeepSeek({
+        apiKey: s.deepseekApiKey,
+      });
+      return deepseek("deepseek-v4-flash");
     }
 
     default:

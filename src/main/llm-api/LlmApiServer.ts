@@ -15,6 +15,7 @@
 
 import { createServer, IncomingMessage, ServerResponse, Server } from 'http'
 import { createAnthropic } from '@ai-sdk/anthropic'
+import { createDeepSeek } from '@ai-sdk/deepseek'
 import { createGitHubCopilotOpenAICompatible } from '@opeoginni/github-copilot-openai-compatible'
 import { createZhipu } from 'zhipu-ai-provider'
 import { codexCli } from 'ai-sdk-provider-codex-cli'
@@ -69,6 +70,13 @@ function getModel(modelOverride?: string): any {
     case 'codex': {
       const codexPath = s.codexPath || undefined
       return codexCli(model || 'gpt-5.2-codex', { codexPath })
+    }
+
+    case 'deepseek': {
+      const deepseek = createDeepSeek({
+        apiKey: s.deepseekApiKey,
+      })
+      return deepseek(model || 'deepseek-v4-flash')
     }
 
     default: {

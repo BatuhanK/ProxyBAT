@@ -1,6 +1,6 @@
 // Shared types used by both main and renderer processes
 
-export type AiProvider = 'kimi' | 'copilot' | 'zai' | 'codex'
+export type AiProvider = 'kimi' | 'copilot' | 'zai' | 'codex' | 'deepseek'
 
 export type KimiModelId = 'k2p5'
 
@@ -41,12 +41,15 @@ export type CodexModelId =
   | 'gpt-5-codex'
   | 'gpt-5-codex-mini'
 
+export type DeepseekModelId = 'deepseek-v4-flash' | 'deepseek-v4-pro'
+
 export interface AiProviderSettings {
   activeProvider: AiProvider
   activeModel: string
   kimiApiKey: string
   copilotApiKey: string
   zaiApiKey: string
+  deepseekApiKey: string
   /** Absolute path to the codex binary, empty string if not configured */
   codexPath: string
 }
@@ -55,6 +58,7 @@ export interface CrawledAiKeys {
   kimiApiKey?: string
   copilotApiKey?: string
   zaiApiKey?: string
+  deepseekApiKey?: string
   /** true when the `opencode` binary was found on PATH */
   opencodeInPath?: boolean
 }

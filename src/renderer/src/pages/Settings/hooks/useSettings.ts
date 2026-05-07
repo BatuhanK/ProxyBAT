@@ -15,6 +15,7 @@ const DEFAULT_AI_SETTINGS: AiProviderSettings = {
   kimiApiKey: "",
   copilotApiKey: "",
   zaiApiKey: "",
+  deepseekApiKey: "",
   codexPath: "",
 };
 
@@ -52,6 +53,7 @@ export function useSettings() {
   const [showKimiKey, setShowKimiKey] = useState(false);
   const [showCopilotKey, setShowCopilotKey] = useState(false);
   const [showZaiKey, setShowZaiKey] = useState(false);
+  const [showDeepseekKey, setShowDeepseekKey] = useState(false);
 
   // Crawl from OpenCode modal
   const [opencodeInPath, setOpencodeInPath] = useState(false);
@@ -261,7 +263,12 @@ export function useSettings() {
         setCrawlError(res.error);
       } else {
         const found = res.found;
-        if (!found.kimiApiKey && !found.copilotApiKey && !found.zaiApiKey) {
+        if (
+          !found.kimiApiKey &&
+          !found.copilotApiKey &&
+          !found.zaiApiKey &&
+          !found.deepseekApiKey
+        ) {
           setCrawlError("No known AI provider keys found in auth.json");
         } else {
           setCrawlFound(found);
@@ -269,6 +276,7 @@ export function useSettings() {
           if (found.kimiApiKey) selected.add("kimiApiKey");
           if (found.copilotApiKey) selected.add("copilotApiKey");
           if (found.zaiApiKey) selected.add("zaiApiKey");
+          if (found.deepseekApiKey) selected.add("deepseekApiKey");
           setCrawlSelected(selected);
         }
       }
@@ -288,6 +296,8 @@ export function useSettings() {
       patch.copilotApiKey = crawlFound.copilotApiKey;
     if (crawlSelected.has("zaiApiKey") && crawlFound.zaiApiKey)
       patch.zaiApiKey = crawlFound.zaiApiKey;
+    if (crawlSelected.has("deepseekApiKey") && crawlFound.deepseekApiKey)
+      patch.deepseekApiKey = crawlFound.deepseekApiKey;
     setAiSettings((s) => ({ ...s, ...patch }));
     setCrawlFound(null);
     setCrawlSelected(new Set());
@@ -390,6 +400,7 @@ export function useSettings() {
     showKimiKey,
     showCopilotKey,
     showZaiKey,
+    showDeepseekKey,
     opencodeInPath,
     crawlLoading,
     crawlFound,
@@ -412,6 +423,7 @@ export function useSettings() {
     setShowKimiKey,
     setShowCopilotKey,
     setShowZaiKey,
+    setShowDeepseekKey,
     setCrawlSelected,
     setCrawlFound,
 
